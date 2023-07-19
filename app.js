@@ -7,6 +7,7 @@ const contactsRouter = require("./routes/api/contacts");
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+if (app.get("env") === "development") require("dotenv").config();
 
 app.use(logger(formatsLogger));
 app.use(cors());
