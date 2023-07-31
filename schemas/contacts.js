@@ -21,22 +21,30 @@ const favoriteSchema = Joi.object({
     .messages({ "any.required": "missing field favorite" }),
 });
 
-const contactSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, "Set name for contact"],
+const contactSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Set name for contact"],
+    },
+    email: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    favorite: {
+      type: Boolean,
+      default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
-  email: {
-    type: String,
-  },
-  phone: {
-    type: String,
-  },
-  favorite: {
-    type: Boolean,
-    default: false,
-  },
-});
+  { versionKey: false, timestamps: true }
+);
 
 module.exports.joiSchema = { addSchema, favoriteSchema };
 module.exports.mongooseSchema = contactSchema;
