@@ -7,22 +7,18 @@ const { joiSchema: schemas } = require("../../schemas/contacts");
 
 const router = express.Router();
 
-router.get("/", authenticate, ctrl.getAll);
+router.use(authenticate);
 
-router.get("/:contactId", authenticate, isValidId, ctrl.getById);
+router.get("/", ctrl.getAll);
 
-router.post(
-  "/",
-  authenticate,
-  validateBody(schemas.addSchema),
-  ctrl.addContact
-);
+router.get("/:contactId", isValidId, ctrl.getById);
 
-router.delete("/:contactId", authenticate, isValidId, ctrl.deleteContact);
+router.post("/", validateBody(schemas.addSchema), ctrl.addContact);
+
+router.delete("/:contactId", isValidId, ctrl.deleteContact);
 
 router.put(
   "/:contactId",
-  authenticate,
   isValidId,
   validateBody(schemas.addSchema),
   ctrl.updateContact
@@ -30,7 +26,6 @@ router.put(
 
 router.patch(
   "/:contactId/favorite",
-  authenticate,
   isValidId,
   validateBody(schemas.favoriteSchema),
   ctrl.updateFavorite

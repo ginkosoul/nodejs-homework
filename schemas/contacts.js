@@ -1,15 +1,16 @@
 const Joi = require("joi");
 const { Schema } = require("mongoose");
 
+const phoneRegex =
+  /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/;
+
 const addSchema = Joi.object({
   name: Joi.string()
     .required()
     .messages({ "any.required": "missing field name" }),
   email: Joi.string().email({ tlds: { allow: false } }),
   phone: Joi.string()
-    .regex(
-      /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/
-    )
+    .regex(phoneRegex)
     .messages({ "string.pattern.base": `Phone number must have 10 digits.` })
     .required(),
   favorite: Joi.boolean(),
@@ -32,6 +33,7 @@ const contactSchema = new Schema(
     },
     phone: {
       type: String,
+      pattern: phoneRegex,
     },
     favorite: {
       type: Boolean,
