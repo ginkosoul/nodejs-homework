@@ -6,6 +6,8 @@ const {
   logout,
   updateSubscription,
   updateAvatar,
+  verifyEmail,
+  resendVerifyEmail,
 } = require("../../controller/auth");
 const { validateBody, authenticate, upload } = require("../../middlewares");
 const { joiSchema } = require("../../schemas/users");
@@ -31,5 +33,7 @@ router.patch(
   optimize,
   updateAvatar
 );
+router.get("/verify/:verificationCode", verifyEmail);
+router.post("/verify", validateBody(joiSchema.emailSchema), resendVerifyEmail);
 
 module.exports = router;
