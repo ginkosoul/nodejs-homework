@@ -18,6 +18,11 @@ app.use(express.static("public"));
 app.use("/api/contacts", contactsRouter);
 app.use("/api/users", authRouter);
 
+app.get("/myip", function (req, res) {
+  const ipAddress = req.header("x-forwarded-for") || req.socket.remoteAddress;
+  res.send(ipAddress);
+});
+
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
