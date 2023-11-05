@@ -20,7 +20,8 @@ app.use("/api/users", authRouter);
 
 app.get("/myip", function (req, res) {
   const ipAddress = req.header("x-forwarded-for") || req.socket.remoteAddress;
-  res.send(ipAddress);
+  const remoteIpSocket = req.socket.remoteAddress;
+  res.send({ ipAddress, remoteIpSocket });
 });
 
 app.use((req, res) => {
